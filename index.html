@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site para Entregadores com Cálculo de Rota Otimizada</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body class="font-roboto bg-gray-100">
+<script src="script.js"></script>
+<header class="bg-blue-600 text-white py-4">
+    <div class="container mx-auto flex justify-between items-center">
+        <h1 class="text-3xl font-bold" style="color:white;margin-left:10px">Entregas Full</h1>
+        <i class="fa fa-car" style="font-size:48px;color:white;margin-right: auto;margin-left:10px"></i>
+        <!-- Botão de logout -->
+        <button id="logout-btn" class="bg-red-800 text-white px-4 py-2 rounded-md hover:bg-red-900" style="color:white;margin-right:20px">Logout</button>
+    </div>
+</header>
+
+<main class="container mx-auto p-4">
+    <section class="bg-white p-6 rounded shadow-md mb-6">
+        <h2 class="text-xl font-bold mb-4">Insira seus Endereços de Entrega</h2>
+        <form id="address-form" class="space-y-4">
+            <div>
+                <label for="start-location" class="block text-sm font-medium text-gray-700">Localização Inicial</label>
+                <input type="text" id="start-location" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Digite sua localização inicial">
+                <ul id="start-location-suggestions" class="hidden absolute bg-white border border-gray-300 mt-2 w-full shadow-lg z-10"></ul>
+            </div>
+            <div>
+                <label for="delivery-address" class="block text-sm font-medium text-gray-700">Digite um Endereço de Entrega</label>
+                <input type="text" id="delivery-address" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Digite o endereço de entrega">
+                <ul id="delivery-address-suggestions" class="hidden absolute bg-white border border-gray-300 mt-2 w-full shadow-lg z-10"></ul>
+            </div>
+            <button type="button" id="add-address-btn" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"><span class="text">Adicionar +</span></button>
+            <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700"><span class="text">Calcular Rota</span></button>
+        </form>
+    </section>
+
+    <section class="bg-white p-6 rounded shadow-md mb-6">
+        <h2 class="text-xl font-bold mb-4">Endereços Inseridos</h2>
+        <ul id="address-list" class="list-disc pl-5">
+            <!-- Os endereços inseridos serão listados aqui -->
+        </ul>
+    </section>
+
+    <section class="bg-white p-6 rounded shadow-md mb-6">
+        <h2 class="text-xl font-bold mb-4">Endereços Ordenados</h2>
+        <ul id="address-ordered-list" class="list-disc pl-5">
+            <!-- A lista de endereços ordenados será preenchida aqui -->
+        </ul>
+    </section>
+</main>
+
+<footer class="bg-blue-600 text-white py-4">
+    <div class="container mx-auto text-center">
+        <p>&copy; 2024 Entregas Full. Todos os direitos reservados by Lucas Khoury.</p>
+    </div>
+</footer>
+
+<script src="script.js"></script>
+
+<script>
+    // Função de logout
+    document.getElementById("logout-btn").addEventListener("click", function() {
+        // Remover o item de login
+        localStorage.removeItem("isLoggedIn");
+        // Redirecionar para a página de login
+        window.location.href = "login.html";
+    });
+</script>
+
+</body>
+</html>
