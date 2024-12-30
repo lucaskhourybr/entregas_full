@@ -77,20 +77,43 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // Adicionar endereço à lista de endereços inseridos
-    addAddressBtn.addEventListener("click", function () {
-        const deliveryAddress = deliveryAddressInput.value.trim();
-        if (deliveryAddress && !addresses.includes(deliveryAddress)) {
-            addresses.push(deliveryAddress);
+    // Função para excluir um endereço
+    function deleteAddress(address) {
+        addresses = addresses.filter(addr => addr !== address);
+        renderAddressList();
+    }
+
+    // Função para renderizar a lista de endereços
+    function renderAddressList() {
+        addressList.innerHTML = '';  // Limpa a lista antes de renderizar novamente
+        addresses.forEach(function (address) {
             const listItem = document.createElement("li");
             listItem.classList.add("flex", "items-center", "justify-between", "bg-white", "p-4", "rounded", "shadow-md", "mb-4");
 
-            listItem.textContent = deliveryAddress;  // Apenas texto, sem link para o Google Maps
+            listItem.textContent = address;
 
-            addressList.appendChild(listItem);  // Adiciona abaixo dos endereços inseridos
+            // Criar o botão de excluir
+            const deleteBtn = document.createElement("button");
+            deleteBtn.classList.add("text-red-500", "ml-4");
+            deleteBtn.innerHTML = '<i class="fas fa-times"></i>';  // Ícone de X vermelho
+            deleteBtn.addEventListener("click", function () {
+                deleteAddress(address);
+            });
+
+            listItem.appendChild(deleteBtn);
+            addressList.appendChild(listItem);
+        });
+    }
+
+    // Adicionar endereço à lista de endereços inseridos
+    addAddressBtn.addEventListener("click", function () {
+        let deliveryAddress = deliveryAddressInput.value.trim();  // Remover espaços extras
+
+        // Verificar se o endereço não está vazio ou duplicado
+        if (deliveryAddress && !addresses.some(address => address.trim().toLowerCase() === deliveryAddress.toLowerCase())) {
+            addresses.push(deliveryAddress);
             deliveryAddressInput.value = "";  // Limpar campo após adicionar
-        } else {
-            alert("Por favor, insira um endereço válido ou único.");
+            renderAddressList();  // Atualiza a lista com o novo endereço
         }
     });
 
@@ -100,7 +123,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const startLocation = startLocationInput.value.trim();
 
         if (!startLocation || addresses.length === 0) {
-            alert("Por favor, insira todos os campos e endereços.");
+
             return;
         }
 
