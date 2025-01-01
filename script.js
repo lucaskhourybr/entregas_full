@@ -123,7 +123,6 @@ document.addEventListener("DOMContentLoaded", function () {
         const startLocation = startLocationInput.value.trim();
 
         if (!startLocation || addresses.length === 0) {
-
             return;
         }
 
@@ -172,24 +171,36 @@ document.addEventListener("DOMContentLoaded", function () {
             distanceText.textContent = result.distance;
             li.appendChild(distanceText);
 
-            // Criar link para o Google Maps
             const mapLink = document.createElement("a");
             mapLink.href = `https://www.google.com/maps?q=${encodeURIComponent(result.address)}`;
             mapLink.target = "_blank";
             mapLink.classList.add("text-blue-500", "hover:underline");
 
-            // Criar ícone de mapa
             const mapIcon = document.createElement("i");
             mapIcon.classList.add("fas", "fa-map-marker-alt", "mr-2", "text-red-500");
 
             mapLink.appendChild(mapIcon);
             li.appendChild(mapLink);
 
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.style
+            checkbox.classList.add("mr-2");
+            checkbox.title = "Marcar como entregue";
+
+            checkbox.addEventListener("change", function () {
+                if (checkbox.checked) {
+                    li.classList.add("line-through", "text-gray-400");
+                } else {
+                    li.classList.remove("line-through", "text-gray-400");
+                }
+            });
+
+            li.prepend(checkbox);
             addressOrderedList.appendChild(li);
         });
     });
 
-    // Função para obter as coordenadas usando a API
     async function getCoordinates(address) {
         const apiKey = "9c0f510ca2a44992899024554c86b9bb";
         const url = `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(address)}&key=${apiKey}&countrycode=BR`;
@@ -208,9 +219,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // Função para calcular a distância entre dois pontos usando a fórmula de Haversine
     function calculateHaversineDistance(lat1, lon1, lat2, lon2) {
-        const R = 6371; // Raio da Terra em km
+        const R = 6371;
         const dLat = (lat2 - lat1) * (Math.PI / 180);
         const dLon = (lon2 - lon1) * (Math.PI / 180);
 
@@ -221,6 +231,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
-        return R * c; // Distância em km
+        return R * c;
     }
 });
